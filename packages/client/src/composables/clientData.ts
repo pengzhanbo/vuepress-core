@@ -15,15 +15,8 @@ const CLIENT_DATA_SYMBOL_GLOBAL_KEY = '__VUEPRESS_CLIENT_DATA_SYMBOL__'
  * new Symbol instance and break `inject` (see vuepress/core#1715).
  */
 const resolveClientDataSymbol = (): InjectionKey<ClientData> => {
-  const existing = globalThis[
-    CLIENT_DATA_SYMBOL_GLOBAL_KEY
-  ] as InjectionKey<ClientData> | null
-
-  if (existing) return existing
-
-  const symbol: InjectionKey<ClientData> = Symbol('clientData')
-  globalThis[CLIENT_DATA_SYMBOL_GLOBAL_KEY] = symbol
-  return symbol
+  globalThis[CLIENT_DATA_SYMBOL_GLOBAL_KEY] ??= Symbol('clientData')
+  return globalThis[CLIENT_DATA_SYMBOL_GLOBAL_KEY] as InjectionKey<ClientData>
 }
 
 /**
